@@ -1,7 +1,7 @@
 image: golang:1.12
 
 variables:
-  REPO_NAME: gitlab.com/polychainlabs/tezos-monitor
+  REPO_NAME: gitlab.com/polychainlabs/tezos-network-monitor
 
 before_script:
   - mkdir -p $GOPATH/src/$(dirname $REPO_NAME)
@@ -28,7 +28,7 @@ test:
 compile:
     stage: build
     script:
-      - CGO_ENABLED=0 GOOS=linux go build -o $CI_PROJECT_DIR/tezos-monitor
+      - CGO_ENABLED=0 GOOS=linux go build -o $CI_PROJECT_DIR/tezos-network-monitor
     artifacts:
       paths:
-        - tezos-external-monitor
+        - tezos-network-monitor
