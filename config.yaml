@@ -1,0 +1,22 @@
+# Addresses delegating to bakers
+Delegators:
+- KT1234
+- KT2345
+# Your bakers
+Bakers:
+- tz1234
+- tz3456
+# Whitelisted addresses that you expect to send funds to, from your delegators or bakers
+Whitelist:
+  tz1234: 
+  - KT1234
+  - KT2345
+  tz3456: 
+  - KT1234
+  - KT2345
+# Helpful aliases
+Aliases:
+  tz1234: "My Baker"
+  tz3456: "Your Baker"
+  KT1234: "My Address"
+  KT2345: "Your Address"
