@@ -120,13 +120,13 @@ func (m *Monitor) CheckBlocks() {
 		for _, double := range block.DoubleEndorsements() {
 			// Slack if anyone has double endorsed
 			alert.PostSlack(&slack.WebhookMessage{
-				Text: fmt.Sprintf("*Double Endorsement* found at level `%v`. `%vꜩ` slashed", double.Level, double.SlashedAmount),
+				Text: fmt.Sprintf("*Double Endorsement* found at cycle `%v`. `%vꜩ` slashed", double.Cycle, double.SlashedAmount/1e6),
 			})
 			for _, address := range m.addresses {
-				if address == double.SlashedBaker {
+				if address == double.SlashedEndorser {
 					// Page if you've double endorsed :(
 					alert.PostSlack(&slack.WebhookMessage{
-						Text: fmt.Sprintf("*WE DOUBLE ENDORSED* At level `%v` by endorser `%v`. `%vꜩ` slashed. SHUT THIS ENDORSER DOWN NOW", double.Level, double.SlashedBaker, double.SlashedAmount),
+						Text: fmt.Sprintf("*WE DOUBLE ENDORSED* At cycle `%v` by endorser `%v`. `%vꜩ` slashed. SHUT THIS ENDORSER DOWN NOW", double.Cycle, double.SlashedEndorser, double.SlashedAmount/1e6),
 					})
 
 					title := fmt.Sprintf("WE DOUBLE ENDORSED with %v at level %v", address, level)

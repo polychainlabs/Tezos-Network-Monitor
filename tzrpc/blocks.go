@@ -181,10 +181,10 @@ func (block *Block) DoubleBakings() []DoubleBaking {
 
 // DoubleEndorsement data
 type DoubleEndorsement struct {
-	SlashedBaker  string
-	RewardedBaker string
-	SlashedAmount int
-	Level         int
+	SlashedEndorser string
+	RewardedBaker   string
+	SlashedAmount   int
+	Cycle           int
 }
 
 // DoubleEndorsements in the block
@@ -206,13 +206,17 @@ func (block *Block) DoubleEndorsements() []DoubleEndorsement {
 
 					for _, update := range balanceUpdates {
 						typedUpdate := update.(map[string]interface{})
-						if typedUpdate["category"] == "deposits" {
-							double.SlashedBaker = typedUpdate["delegate"].(string)
+						switch typedUpdate["category"] {
+						case "deposits", "fees", "rewards":
 							amount, _ := strconv.Atoi(typedUpdate["change"].(string))
-							double.SlashedAmount = amount
-							double.Level = int(typedUpdate["level"].(float64))
-						} else if typedUpdate["category"] == "rewards" {
-							double.RewardedBaker = typedUpdate["delegate"].(string)
+							if amount < 0 {
+								double.SlashedEndorser = typedUpdate["delegate"].(string)
+								double.Cycle = int(typedUpdate["cycle"].(float64))
+								amount, _ := strconv.Atoi(typedUpdate["change"].(string))
+								double.SlashedAmount -= amount
+							} else if amount > 0 {
+								double.RewardedBaker = typedUpdate["delegate"].(string)
+							}
 						}
 					}
 

@@ -49,6 +49,34 @@ func TestDoubleBaking(t *testing.T) {
 	}
 }
 
+func TestDoubleEndorsement(t *testing.T) {
+	block := getBlock("../tests/double_endorsement.json")
+
+	doubles := block.DoubleEndorsements()
+
+	if len(doubles) != 1 {
+		log.Println("Failure: Expected 1 double endorsement but found", len(doubles))
+		t.Fail()
+	}
+
+	if doubles[0].SlashedEndorser != "tz1PeZx7FXy7QRuMREGXGxeipb24RsMMzUNe" {
+		log.Println("Failure: Incorrect slashed endorser.  Received", doubles[0].SlashedEndorser)
+		t.Fail()
+	}
+	if doubles[0].RewardedBaker != "tz1gk3TDbU7cJuiBRMhwQXVvgDnjsxuWhcEA" {
+		log.Println("Failure: Incorrect rewarded baker.  Received", doubles[0].RewardedBaker)
+		t.Fail()
+	}
+	if doubles[0].SlashedAmount != 39846254246 {
+		log.Println("Failure: Incorrect slashed amount.  Received", doubles[0].SlashedAmount)
+		t.Fail()
+	}
+	if doubles[0].Cycle != 135 {
+		log.Println("Failure: Incorrect slashed level.  Received", doubles[0].Cycle)
+		t.Fail()
+	}
+}
+
 func TestDelegation(t *testing.T) {
 	block := getBlock("../tests/delegation.json")
 
