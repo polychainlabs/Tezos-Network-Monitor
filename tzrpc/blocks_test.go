@@ -43,8 +43,28 @@ func TestDoubleBaking(t *testing.T) {
 		log.Println("Failure: Incorrect slashed amount.  Received", doubles[0].SlashedAmount)
 		t.Fail()
 	}
-	if doubles[0].Level != 74 {
-		log.Println("Failure: Incorrect slashed level.  Received", doubles[0].Level)
+}
+
+func TestDoubleBaking2(t *testing.T) {
+	block := getBlock("../tests/double_baking_2.json")
+
+	doubles := block.DoubleBakings()
+
+	if len(doubles) != 1 {
+		log.Println("Failure: Expected 1 double bakings but found", len(doubles))
+		t.Fail()
+	}
+
+	if doubles[0].SlashedBaker != "tz1cYqRcjRXSWcs3bjehN21VmBAH2aFMg6Ds" {
+		log.Println("Failure: Incorrect slashed baker.  Received", doubles[0].SlashedBaker)
+		t.Fail()
+	}
+	if doubles[0].RewardedBaker != "tz1LmaFsWRkjr7QMCx5PtV6xTUz3AmEpKQiF" {
+		log.Println("Failure: Incorrect rewarded baker.  Received", doubles[0].RewardedBaker)
+		t.Fail()
+	}
+	if doubles[0].SlashedAmount != -960000000 {
+		log.Println("Failure: Incorrect slashed amount.  Received", doubles[0].SlashedAmount)
 		t.Fail()
 	}
 }
@@ -72,7 +92,7 @@ func TestDoubleEndorsement(t *testing.T) {
 		t.Fail()
 	}
 	if doubles[0].Cycle != 135 {
-		log.Println("Failure: Incorrect slashed level.  Received", doubles[0].Cycle)
+		log.Println("Failure: Incorrect slashed cycle.  Received", doubles[0].Cycle)
 		t.Fail()
 	}
 }

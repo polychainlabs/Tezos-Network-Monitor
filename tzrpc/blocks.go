@@ -165,7 +165,8 @@ func (block *Block) DoubleBakings() []DoubleBaking {
 							double.SlashedBaker = typedUpdate["delegate"].(string)
 							amount, _ := strconv.Atoi(typedUpdate["change"].(string))
 							double.SlashedAmount = amount
-							double.Level = int(typedUpdate["level"].(float64))
+							// Broken in: https://tzstats.com/block/511005
+							// double.Level = int(typedUpdate["level"].(float64))
 						} else if typedUpdate["category"] == "rewards" {
 							double.RewardedBaker = typedUpdate["delegate"].(string)
 						}
