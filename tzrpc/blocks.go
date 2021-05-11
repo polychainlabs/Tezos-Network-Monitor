@@ -82,7 +82,7 @@ func (block *Block) Endorsements(delegate string) ([]int64, error) {
 			contents := operation["contents"].([]interface{})
 			for _, c := range contents {
 				typedContents := c.(map[string]interface{})
-				if typedContents["kind"] != "endorsement" {
+				if typedContents["kind"] != "endorsement_with_slot" {
 					continue
 				}
 				metadata := typedContents["metadata"].(map[string]interface{})
